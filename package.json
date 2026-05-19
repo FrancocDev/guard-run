@@ -2,6 +2,8 @@
   "name": "guard-run",
   "version": "0.1.0",
   "private": false,
+  "license": "MIT",
+  "repository": "github:FrancocDev/guard-run",
   "type": "module",
   "bin": {
     "guard-run": "dist/cli.js"
