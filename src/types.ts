@@ -40,5 +40,14 @@ export interface TaskError {
   cause: unknown;
 }
 
+/** A cycle was detected in the task DAG. */
+export interface CycleError {
+  _tag: "CycleError";
+  /** The tasks forming the cycle, in path order (e.g. [a, b, a]). */
+  cycle: TaskName[];
+  /** Human-readable cycle description (e.g. "a → b → a"). */
+  message: string;
+}
+
 /** Discriminated union of all known error types. */
 export type GuardRunError = GuardError | TaskError;

@@ -10,7 +10,7 @@
  * will report an "Unused '@ts-expect-error' directive" error.
  */
 
-import type { GuardError, StepName, TaskError, TaskName } from "./types.js";
+import type { CycleError, GuardError, StepName, TaskError, TaskName } from "./types.js";
 
 // ── Brand isolation: TaskName ───────────────────────────────────
 
@@ -87,3 +87,15 @@ function handle(err: GuardError | TaskError): string {
 // Calling handle with each variant compiles.
 handle(_guardErr);
 handle(_taskErr);
+
+// ── CycleError shape ────────────────────────────────────────────
+
+const _cycleErr: CycleError = {
+  _tag: "CycleError",
+  cycle: ["a" as TaskName, "b" as TaskName, "a" as TaskName],
+  message: "a → b → a",
+};
+
+// Verify the _tag discriminator is present.
+const _cycleTag: "CycleError" = _cycleErr._tag;
+void (_cycleTag);

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 import { success } from "@francocdev/ts-patterns/result";
-import type { GuardError, TaskDef, TaskError, TaskName } from "./types.js";
+import type { CycleError, GuardError, TaskDef, TaskError, TaskName } from "./types.js";
 
 // ── Runtime shape tests ────────────────────────────────────────
 
@@ -47,6 +47,19 @@ describe("TaskError", () => {
     expect(err._tag).toBe("TaskError");
     expect(err.message).toBe("Build failed");
     expect(err.cause).toBeInstanceOf(Error);
+  });
+});
+
+describe("CycleError", () => {
+  it("is discriminated with _tag 'CycleError'", () => {
+    const err: CycleError = {
+      _tag: "CycleError",
+      cycle: ["a" as TaskName, "b" as TaskName, "a" as TaskName],
+      message: "a → b → a",
+    };
+    expect(err._tag).toBe("CycleError");
+    expect(err.cycle).toHaveLength(3);
+    expect(err.message).toBe("a → b → a");
   });
 });
 
