@@ -1,4 +1,6 @@
 import type { Branded } from "@francocdev/ts-patterns/brand";
+import type { Guard } from "@francocdev/ts-patterns/guards";
+import type { Result } from "@francocdev/ts-patterns/result";
 
 // ── Branded types ──────────────────────────────────────────────
 
@@ -13,9 +15,9 @@ export type StepName = Branded<string, "StepName">;
 /** Descriptor produced by the task builder after `.build()`. */
 export interface TaskDef<T = unknown> {
   name: TaskName;
-  pre: unknown[];
-  run: unknown;
-  post: unknown[];
+  pre: Guard<T>[];
+  run: (ctx: T) => Result<T, GuardRunError>;
+  post: Guard<T>[];
   dependencies: TaskName[];
 }
 

@@ -1,4 +1,5 @@
 import { describe, it, expect } from "bun:test";
+import { success } from "@francocdev/ts-patterns/result";
 import type { GuardError, TaskDef, TaskError, TaskName } from "./types.js";
 
 // ── Runtime shape tests ────────────────────────────────────────
@@ -8,13 +9,13 @@ describe("TaskDef", () => {
     const def: TaskDef = {
       name: "build" as TaskName,
       pre: [],
-      run: undefined,
+      run: () => success("ok"),
       post: [],
       dependencies: [],
     };
     expect(def.name).toBe("build" as TaskName);
     expect(def.pre).toEqual([]);
-    expect(def.run).toBeUndefined();
+    expect(typeof def.run).toBe("function");
     expect(def.post).toEqual([]);
     expect(def.dependencies).toEqual([]);
   });
