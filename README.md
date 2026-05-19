@@ -18,11 +18,17 @@ bun add @francocdev/guard-run
 
 ```ts
 import { task } from "@francocdev/guard-run";
+import type { TaskName } from "@francocdev/guard-run";
 import { isString, isNumber } from "@francocdev/ts-patterns/guards";
+
+// Branded task names for type-safe dependency linking
+const lintName = "lint" as TaskName;
+const buildName = "build" as TaskName;
+const testName = "test" as TaskName;
 
 // ── Define tasks with guards ─────────────────────────────────
 
-const lint = task("lint")
+const lint = task(lintName)
   .pre(isString)                    // pre-condition: input must be string
   .run((ctx) => {
     console.log("linting:", ctx);
@@ -31,8 +37,8 @@ const lint = task("lint")
   .post(isString)                   // post-condition: output must be string
   .build();
 
-const build = task("build")
-  .dependsOn("lint")                // lint must pass before build runs
+const build = task(buildName)
+  .dependsOn(lintName)              // lint must pass before build runs
   .pre(isString)
   .run((ctx) => {
     console.log("building:", ctx);
@@ -40,8 +46,8 @@ const build = task("build")
   })
   .build();
 
-const test = task("test")
-  .dependsOn("build")               // build must pass before test runs
+const test = task(testName)
+  .dependsOn(buildName)             // build must pass before test runs
   .run((ctx) => {
     console.log("testing:", ctx);
     return ctx;

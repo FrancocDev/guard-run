@@ -1,7 +1,7 @@
 {
   "name": "guard-run",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "type": "module",
   "bin": {
     "guard-run": "./dist/cli.js"
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "bun build src/cli.ts --outdir dist",
     "test": "bun test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "bunx tsc --noEmit"
   },
   "dependencies": {
     "@francocdev/ts-patterns": "^0.1.0"
